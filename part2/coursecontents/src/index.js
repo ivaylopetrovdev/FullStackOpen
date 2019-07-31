@@ -44,7 +44,7 @@ const Total = (props) => {
         total += part.exercises
     ));
 
-    return (<p>Number of exercises {total}</p>);
+    return (<strong>total of {total} exercises</strong>);
 };
 
 const App = () => {
@@ -65,6 +65,11 @@ const App = () => {
                 name: 'State of a component',
                 exercises: 14,
                 id: 3
+            },
+            {
+                name: 'Redux',
+                exercises: 11,
+                id: 4
             }
         ]
     }
