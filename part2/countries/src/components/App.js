@@ -8,7 +8,7 @@ const App = () => {
     const [countries, setCountries] = useState([]);
 
     const handleFilterNameChange = (event) => {
-        setNewFilterNAme(event.target.value)
+        setNewFilterNAme(event.value || event.target.value)
     };
 
     useEffect(() => {
@@ -22,7 +22,7 @@ const App = () => {
     return (
         <div>
             <Filter value={filterName} onChange={handleFilterNameChange} />
-            <Countries countries={countries} filterName={filterName} />
+            <Countries countries={countries} filterName={filterName} setFilterName={handleFilterNameChange} />
         </div>
     )
 };

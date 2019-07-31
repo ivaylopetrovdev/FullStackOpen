@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Countries = ({countries, filterName}) => {
+const Countries = ({countries, filterName, setFilterName}) => {
     const showCountries = countries.filter(c => c.name.toLowerCase().search(filterName) !== -1);
     let error = null;
     if (showCountries.length > 10) {
@@ -12,7 +12,14 @@ const Countries = ({countries, filterName}) => {
             {filterName ? (
                 <div>
                     {error ? (<div>{error}</div>) : null}
-                    {(showCountries.length > 2 && showCountries.length <= 10) ? showCountries.map(c => (<div key={c.name}>{c.name}</div>)) : null}
+                    {(showCountries.length >= 2 && showCountries.length <= 10) ? showCountries.map(c => (
+                        <div key={c.name}>
+                            {c.name}
+                            &nbsp;<button onClick={() => setFilterName({value: c.name.toLowerCase()})}>
+                                show
+                            </button>
+                        </div>
+                    )) : null}
                     {(showCountries.length === 1) ? (
                         <div>
                             <h2>{showCountries[0].name}</h2>
