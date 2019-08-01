@@ -8,7 +8,7 @@ const App = () => {
     const [persons, setPersons] = useState([]);
     const [newName, setNewName] = useState('');
     const [newNumber, setNewNumber] = useState('');
-    const [filterName, setNewFilterNAme] = useState('');
+    const [filterName, setNewFilterName] = useState('');
 
     const handleNameChange = (event) => {
         setNewName(event.target.value)
@@ -19,7 +19,7 @@ const App = () => {
     };
 
     const handleFilterNameChange = (event) => {
-        setNewFilterNAme(event.target.value)
+        setNewFilterName(event.target.value)
     };
 
     const addPerson = (event) => {
@@ -36,9 +36,13 @@ const App = () => {
             number: newNumber
         };
 
-        setPersons(persons.concat(newPerson));
-        setNewName('');
-        setNewNumber('');
+        axios
+            .post('http://localhost:3001/persons', newPerson)
+            .then(response => {
+                setPersons(persons.concat(response.data));
+                setNewName('');
+                setNewNumber('');
+            })
     };
 
     useEffect(() => {
