@@ -30,12 +30,25 @@ const App = () => {
             })
     };
 
+    const update = (person) => {
+        const updatedPerson = {...person, number: newNumber};
+        personsService
+            .update(updatedPerson.id, updatedPerson)
+            .then(returnedPerson => {
+                setPersons(persons.map(person => person.id !== returnedPerson.id ? person : returnedPerson));
+                setNewName('');
+                setNewNumber('');
+            })
+    };
+
     const addPerson = (event) => {
         event.preventDefault();
         const userExists = persons.filter(person => person.name === newName);
 
         if(userExists.length) {
-            alert(`${newName} is already added to phonebook`);
+            if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+                return update(userExists[0]);
+            }
             return;
         }
 
