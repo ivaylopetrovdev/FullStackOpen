@@ -22,6 +22,14 @@ const App = () => {
         setNewFilterName(event.target.value)
     };
 
+    const removePerson = (id) => {
+        personsService
+            .deleteById(id)
+            .then(() => {
+                setPersons(persons.filter((person) => person.id !== id));
+            })
+    };
+
     const addPerson = (event) => {
         event.preventDefault();
         const userExists = persons.filter(person => person.name === newName);
@@ -68,7 +76,7 @@ const App = () => {
 
             <h3>Numbers</h3>
 
-            <Persons persons={persons} filterName={filterName} />
+            <Persons persons={persons} filterName={filterName} removePerson={removePerson} />
         </div>
     )
 };
