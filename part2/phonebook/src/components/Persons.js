@@ -6,7 +6,7 @@ const Persons = ({persons, filterName, removePerson}) => {
         <table>
             <tbody>
             {persons
-                .filter(p => p.name.toLowerCase().search(filterName) !== -1)
+                .filter(p => p.name.toLowerCase().search(filterName.toLowerCase()) !== -1)
                 .map(({name, number, id}) => <Person name={name} id={id} number={number} key={id} removePerson={removePerson} />)
             }
             </tbody>
