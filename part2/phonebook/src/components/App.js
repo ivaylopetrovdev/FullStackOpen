@@ -12,6 +12,7 @@ const App = () => {
     const [newNumber, setNewNumber] = useState('');
     const [filterName, setNewFilterName] = useState('');
     const [errorMessage, setErrorMessage] = useState(null);
+    const [notificationType, setNotificationType] = useState(null);
 
     const handleNameChange = (event) => {
         setNewName(event.target.value)
@@ -33,10 +34,9 @@ const App = () => {
             })
     };
 
-    const trigggerNotification = (message) => {
-        setErrorMessage(
-            message
-        );
+    const trigggerNotification = (message, type) => {
+        setErrorMessage(message);
+        setNotificationType(type);
         setTimeout(() => {
             setErrorMessage(null)
         }, 5000);
@@ -47,10 +47,14 @@ const App = () => {
         personsService
             .update(updatedPerson.id, updatedPerson)
             .then(returnedPerson => {
-                trigggerNotification(`Number changed for '${returnedPerson.name}'`);
+                trigggerNotification(`Number changed for '${returnedPerson.name}'`, 'success');
                 setPersons(persons.map(person => person.id !== returnedPerson.id ? person : returnedPerson));
                 setNewName('');
                 setNewNumber('');
+            })
+            .catch(() => {
+                trigggerNotification(`Information of '${updatedPerson.name}' has already been removed from server`, 'error');
+                setPersons(persons.filter(person => person.id !== updatedPerson.id));
             })
     };
 
@@ -73,7 +77,7 @@ const App = () => {
         personsService
             .create(newPerson)
             .then(returnedPerson => {
-                trigggerNotification(`Added '${returnedPerson.name}'`);
+                trigggerNotification(`Added '${returnedPerson.name}'`, 'success');
                 setPersons(persons.concat(returnedPerson));
                 setNewName('');
                 setNewNumber('');
@@ -91,7 +95,7 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-            <Notification message={errorMessage} />
+            <Notification message={errorMessage} type={notificationType} />
             <Filter value={filterName} onChange={handleFilterNameChange} />
             <h3>add a new</h3>
             <PersonForm actions={{
